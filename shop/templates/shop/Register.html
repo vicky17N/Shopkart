@@ -1,0 +1,80 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+Registration | Shopkart
+{% endblock title %}
+{% block content %}
+<div style="margin-top: 30px; " class="min-vh-100">
+    <div class="container  ">
+        <div class="row">
+            <section class=" my-5 Register" >
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="mb-3 text-center" >Register Page</h4>
+                            <hr style="border-color: gray;">
+                        </div>
+                               <div class="col-lg-6 col-md-12" >
+                                <div class="mb-4">
+                
+                                    {% if form.errors.username %}
+                                        <label for="" class="text-danger d-block">{{form.errors.username}}</label>
+                                    {% endif %}
+                                </div>
+                                <div class="mb-4">
+                                   
+                                    {% if form.errors.email %}
+                                        <label for="" class="text-danger  d-block ">{{form.errors.email}}</label>
+                                    {% endif %}
+                                </div>
+                                <div class="mb-4">
+                                  
+                                    {% if form.errors.password1 %}
+                                     <label for="" class="text-danger  d-block">{{form.errors.password1}}</label>
+                                    {% endif %}
+
+                                </div>
+                                <div class="mb-4">
+                              
+                                    {% if form.errors.password2 %}
+                                        <label for="" class="text-danger  d-block ">{{form.errors.password2}}</label>
+                                    {% endif %}
+
+                                </div>
+                    
+                        </div>
+                        <div class=" col-lg-6 col-md-12">
+                            <form method="post" action="">
+                                {% csrf_token %}
+                                <div class="mb-4">
+                                    <label for="" class="form-lable my-2 ">User Name</label>
+                                    {{form.username}}
+                 
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="form-lable my-2">Email</label>
+                                    {{form.email}}
+                          
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="form-lable my-2">Password</label>
+                                    {{form.password1}}
+                
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="form-lable my-2">Confirm Password</label>
+                                    {{form.password2}}
+                                  
+                                </div>
+                                <button type="submit" class="btn btn-primary ">Submit</button>
+                                <p class="my-4 text-center">Already User ?  <a href="{% url 'login' %}">Login Now</a></p>
+                            </form>
+                        </div>
+                        
+
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock content %}

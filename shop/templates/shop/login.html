@@ -1,0 +1,33 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+Registration | Shopkart
+{% endblock title %}
+{% block content %}
+<div style="margin-top: 70px; " class="min-vh-100">
+  
+    <div class="container col-md-4 col-md-offset-4 " style="margin-top: 6%;">
+        <div class="row">
+            <div class="login">
+                <h4 class="mb-3">User Login Page</h4>
+                <hr style="border-color: gray;">
+               
+               {% include 'shop/inc/message.html' %}
+               <form action="" method="post">
+                {% csrf_token %}
+                <div class="mb-4">
+                    <label for="" class="form-lable">Username</label>
+                    <input type="text" name="username" id="username" class="form-control" placeholder="username">    
+                </div>
+                <div class="mb-4">
+                    <label for="" class="form-lable">Password</label>
+                    <input type="password" name="password" id="password" class="form-control" placeholder="password">    
+                </div>
+                <button type="submit" class="btn btn-primary">Login</button>
+                <p class="m-4 text-center">You dont have a account ? <br><a href="{% url 'Register' %}" style="color: orange; " >&nbsp;&nbsp;Register Now</a></p>
+                <p class="m-4 text-center">Forget Password ?<a href="{% url 'password_reset' %}" style="color: orange; " >&nbsp;&nbsp;Reset Password</a></p>
+               </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

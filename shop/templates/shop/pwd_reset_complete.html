@@ -1,0 +1,18 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+  Favourite | ShopKart
+{% endblock title %}
+{% block content %}
+  <section class="bg-light py-4 my-5" style="min-height:600px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="mb-3">Password Reset </h4>
+          <hr style="border-color:#b8bfc2;">
+        </div>
+        <h2>Password reset complete</h2>
+        <p>Your password has been set. You can now <a href="{% url 'login' %}">log in</a>.</p>
+      </div>
+      </div>
+  </section>
+{% endblock content %}

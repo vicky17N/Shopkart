@@ -1,0 +1,47 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+Registration | Shopkart
+{% endblock title %}
+
+{% block content %}
+<section style="margin-top: 70px;" >
+    {% if request.user.is_authenticated %}
+    {% else %}
+    <div class="row py-lg-3 text-center">
+        <div class="col-mg-8 col-lg-6 mx-auto">
+            <h1 class="fw-light"><b>Best Sellers</b></h1>
+            <p class="lead text-muted">Shopkart.com is a one stop destination for your family's fashion needs.</p>
+            <p>
+                <a href="{% url 'login' %}" class="btn btn-primary my-2">Already User</a>
+                <a href="{% url 'Register' %}" class="btn btn-secondary my-2">Register</a>
+            </p>
+        </div>
+    </div>
+</section>
+{% endif %}
+<section class="bg-light py-4 my-1">
+    <div class="container">
+        <div class="row">
+           <div class="col-12">
+            <h4 class="mb-3">Catagories</h4>
+            <hr style="border-color: gray;">
+           </div>
+
+           {% for item in catogory %}
+           <div class="col-md-4 col-lg-3">
+            <div class="card ">
+                <img src="{{item.image.url}}" class="card-image-top rounded mx-auto d-block"  alt="Catagories">
+                <hr style="border-color: gray;">
+                <a href="{% url 'collections' item.name%}">
+                    <div class="card-body">
+                        <h5 class="card-title text-dark text-center">{{item.name}}</h5>
+                        <p class="card-text text-center">{{item.description}} </p>
+                    </div>
+                </a>
+            </div>
+           </div>
+           {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock content %}

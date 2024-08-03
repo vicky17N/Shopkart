@@ -1,0 +1,178 @@
+{% extends 'shop/layouts/main.html' %}
+
+{% block title %}
+Registration | Shopkart
+{% endblock title %}
+
+{% block content %}
+<style>body{background: #f5f5f5}.rounded{border-radius: 1rem}.nav-pills .nav-link{color: #555}.nav-pills .nav-link.active{color: white}input[type="radio"]{margin-right: 5px}.bold{font-weight:bold}</style>
+<div style="margin-top: 70px; margin-left: 10px;">
+    {% include 'shop/inc/message.html' %}
+    <section class="bg-light py-3 min-vh-60">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <h5 class="text-uppercase fw-bold mb-3">
+                        <i class="fa fa-cart-plus" style="color: orange;"></i>&nbsp;&nbsp;Shop<span style="color: orange;">Kart</span>
+                    </h5>
+                    <h5 class="text-center">Checkout</h5>
+                    <hr style="border-color: gray;">
+                </div>
+                <div class="col-4 my-3">
+                    <h5><b>Order details</b></h5>
+                </div>
+                <div class="col-4 my-3 pic-box">
+                    {% if products.Trending %}
+                    <div class="hot">Hot Sale</div>
+                    {% endif %}
+                    <img src="{{ products.product_image.url }}" class="card-image-top rounded mx-auto d-block " alt="{{ products }}">
+                </div>
+                <div class="col-lg-4 col-md-2 my-3">
+                    <td><input type="hidden" value="{{products.id}}" id="pid"></td>
+                    <h5 class="text-success" id="p_name">{{ products.name | upper }}</h5>
+                    <p>{{ products.vendor }}</p>
+                    <p>{{ products.description }}</p>
+                    <h6 class="text-danger"><s>Current Price : Rs.{{ products.Product_price }}</s></h6>
+                    <h5 class="text-success">Offer Price : Rs.{{ products.selling_price }}</h5>
+                </div>
+                <div class="col-12">
+                    {% for address in address %}
+                    <table class="table table">
+                        <tr>
+                            <th class="text-start text-primary">Your shipping address</th>
+                            <th></th>
+                            <th></th>
+                            
+                        </tr>
+                        <tr>
+                            <td class="col-lg-4 col-md-12">
+                                <li><b id="address">{{ address }}</b></li>
+                                <li><b id="address">{{ address.postal_code }}</b></li>
+                            </td>
+                            <td class="">
+                                <a href="{% url 'Editaddress' products.name %}" class="btn btn-primary">Edit</a>
+                            </td>
+                            <td class="">
+                                <h6>Payment for {{ products.name | upper }}</h6>
+                                <p id="Total_price">Price: ₹{{ products.selling_price }}</p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                               <li> <b id="user">{{address.first_name}}</b> <b id="user">{{address.last_name}}</b></li>
+                               <li><i class="fa fa-phone"></i> <b id="phone_number">    {{address.phone_number}}</b></li>
+                               <li><i class="fa fa-envelope"></i><b id="email">     {{address.email}}</b></li>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td>
+                            </td>
+                        </tr>
+                    </table>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="text-center">
+                <button class="btn btn payWithRazorpay" style="background-color: orange;"><b>Pay Now</b></button>
+            </div>
+        </div>
+    </section>
+</div>
+<script>
+    $(function() {
+        $('[data-toggle="tooltip"]').tooltip()
+    });
+</script>
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+    var username = document.getElementById('user').innerText;
+    var phone_number = document.getElementById('phone_number').innerText;
+    var email = document.getElementById('email').innerText;
+    var address = document.getElementById('address').innerText;
+    var p_name = document.getElementById('p_name').innerText;
+
+    $(document).ready(function(){
+        $('.payWithRazorpay').click(function(e){
+            e.preventDefault();
+
+            var total_price_element = $('#Total_price');
+            var total_price_value = total_price_element.text().replace('Price: ₹', '').trim();
+            
+            $.ajax({
+                method: 'POST',
+                url: '/proceed_to_pay',
+                data: {
+                    'total_price': total_price_value,
+                    'csrfmiddlewaretoken': '{{ csrf_token }}'
+                },
+                success: function(res){
+                    console.log(res);
+
+                    var options = {
+                        "key": "rzp_test_i4a0biIi9G3it3",
+                        "amount": res.total_price * 100,
+                        "currency": "INR",
+                        "name": "Shop Kart",
+                        "description":p_name,
+                        "image": "",
+                       "handler": function(response) {
+                            swal({
+                                title: "Your Order is Confirmed!",
+                                text: 'Order Id: ' + response.razorpay_payment_id + '\nProduct Name: ' + document.getElementById('p_name').innerText,
+                                icon: "success",
+                                button: "Ok",
+                            }).then(() => {
+
+                                let postObj = { 
+                                    'pid': pid.value,
+                                }
+                                console.log(postObj);
+                            
+                                fetch("/order_page", {
+                                    method: 'POST',
+                                    credentials: 'same-origin',
+                                    headers: {
+                                        'Accept': 'application/json',
+                                        'X-Requested-With': 'XMLHttpRequest',
+                                        'X-CSRFToken': '{{ csrf_token }}',
+                                    },
+                                    body: JSON.stringify(postObj)
+                                }).then((value) => {
+                                    window.location.href = '/order_page_view';
+                                });
+                            });
+                        },
+                        "prefill": {
+                            "name": username,
+                            "email": email, 
+                            "contact": phone_number
+                        },
+                        
+                        "notes": {
+                            "address": address,
+                            
+                        },
+                        "theme": {
+                            "color": "#ffA500"
+                        }
+                    };
+
+                    var rzp1 = new Razorpay(options);
+
+                    rzp1.on('payment.failed', function (response){
+                        alert(response.error.code);
+                        alert(response.error.description);
+                        alert(response.error.source);
+                        alert(response.error.step);
+                        alert(response.error.reason);
+                        alert(response.error.metadata.order_id);
+                        alert(response.error.metadata.payment_id);
+                    });
+
+                    rzp1.open();
+                }
+            });
+        });
+    });
+</script>
+{% endblock content %}

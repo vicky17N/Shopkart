@@ -1,0 +1,85 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+Registration | Shopkart
+{% endblock title %}
+{% block content %}
+<div style="margin-top: 30px; " class="min-vh-100">
+    <div class="container  ">
+        <div class="row">
+            <section class=" my-5" >
+                <div class="container Register ">
+                    <div class="row">
+                        <div class="col-12">
+                            <h4 class="mb-3 text-center" >Shipping address</h4>
+                            <hr style="border-color: gray;">
+                           </div>
+                           <div class=" col-lg-6 col-md-12">
+                            <form method="post" action="">
+                                 
+                                {% csrf_token %}
+                                <div class="mb-4">
+                                    <label for="" class="form-lable my-2 ">First Name</label>
+                                    {{form.first_name}}
+                 
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="form-lable my-2">Last Name</label>
+                                    {{form.last_name}}
+                          
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="form-lable my-2">Address Line 1</label>
+                                    {{form.address_line1}}
+                
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="form-lable my-2">Address Line 2</label>
+                                    {{form.address_line2}}
+                                  
+                                </div>
+                                <div class="mb-4">
+                                    <label for="" class="form-lable my-2">City</label>
+                                    {{form.city}}
+                                  
+                                </div>
+                                
+                        </div>
+                        <div class="col-lg-6 col-md-12 " style="margin-top: 40px;">
+                            <div class="mb-4">
+                                <label for="" class="form-lable my-2">State</label>
+                                {{form.state}}
+                              
+                            </div>
+                            <div class="mb-4">
+                                <label for="" class="form-lable my-2">Postal Code</label>
+                                {{form.postal_code}}
+                              
+                            </div>
+                            <div class="mb-4">
+                                <label for="" class="form-lable my-2">Country</label>
+                                {{form.country}}
+                              
+                            </div>
+                            <div class="mb-4">
+                                <label for="" class="form-lable my-2">Phone Number</label>
+                                {{form.phone_number}}
+                              
+                            </div>
+                            <div class="mb-4">
+                                <label for="" class="form-lable my-2">Email</label>
+                                {{form.email}}
+                              
+                            </div>
+                        </div>
+                        <div class="col-12">
+                            <button type="submit" class="btn btn-primary "><b>Submit</b></button>
+
+                        </div>
+                    </form>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</div>
+{% endblock content %}

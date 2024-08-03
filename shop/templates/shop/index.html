@@ -1,0 +1,33 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+Home | Shopkart
+{% endblock title %}
+
+{% block content %}
+
+{% include 'shop/inc/slider.html'%}
+{% include 'shop/inc/message.html' %}
+<div class="container ">
+    <div class="row">
+        <div class="col-12">
+            <h4 class="mb-3">Latest Products</h4>
+            <hr style="border-color: gray;">
+           </div>
+            {% for item in products %}
+               <div class="col-md-4 col-lg-3 p-3">
+                <div class="card ">
+                    <img src="{{item.product_image.url}}" class="card-image-top rounded mx-auto  d-block" alt="Catagories">
+                    <hr style="border-color: gray;">
+                    <a href="{% url 'product_details' item.Catogory.name item.name%}">
+                        <div class="card-body">
+                            <h5 class="card-title text-dark ">{{item.name}}</h5>
+                            <span class="card-text float-start old_price mt-2"><s>Rs. {{item.Product_price}} </s></span>
+                            <span class="card-text float-end new_price">Rs.{{item.selling_price}} </span>
+                        </div>
+                    </a>
+                </div>
+               </div>
+               {% endfor %}
+    </div>
+</div>
+{% endblock content %}

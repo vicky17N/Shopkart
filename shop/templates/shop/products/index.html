@@ -1,0 +1,35 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+Registration | Shopkart
+{% endblock title %}
+{% block content %}
+<div style="margin-top: 70px; margin-left:10px ;" >
+    
+    <section class="bg-light py-4 my-1">
+        <div class="container">
+            <div class="row">
+               <div class="col-12">
+                <h4 class="mb-3">{{catogory_name}} Products</h4>
+                <hr style="border-color: gray;">
+               </div>
+    
+               {% for item in products %}
+               <div class="col-md-4 col-lg-4 col-xl-3 gap-2">
+                <div class="card ">
+                    <img src="{{item.product_image.url}}" class="card-image-top rounded mx-auto  d-block" height="200px" alt="Catagories">
+                    <hr style="border-color: gray;">
+                    <a href="{% url 'product_details' catogory item.name%}">
+                        <div class="card-body">
+                            <h5 class="card-title text-dark ">{{item.name}}</h5>
+                            <span class="card-text float-start old_price"><s>Rs. {{item.Product_price}} </s></span>
+                            <span class="card-text float-end new_price">Rs.{{item.selling_price}} </span>
+                        </div>
+                    </a>
+                </div>
+               </div>
+               {% endfor %}
+            </div>
+        </div>
+    </section>
+</div>
+{% endblock content %}
