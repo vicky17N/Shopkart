@@ -1,7 +1,7 @@
 *.pyc
 __pycache__/
 db.sqlite3
-/staticfiles/
-/media/
-/env
-*.env
+/media
+/staticfiles
+*.log
+.env
